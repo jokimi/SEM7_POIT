@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>REST Service - Lab1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            margin: 5px;
+            padding: 8px 15px;
+        }
+
+        input {
+            margin: 5px;
+            padding: 8px;
+            width: 100px;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>REST Service Lab1</h1>
+    <div class="section">
+        <h2>1. GET Current Result</h2>
+        <button onclick="getResult()">GET Result</button>
+        <div id="getResult"></div>
+    </div>
+    <div class="section">
+        <h2>2. POST Update Result</h2>
+        <input type="number" id="postValue" placeholder="New RESULT value">
+        <button onclick="postResult()">POST Update</button>
+        <div id="postResult"></div>
+    </div>
+    <div class="section">
+        <h2>3. PUT Add to Stack</h2>
+        <input type="number" id="putValue" placeholder="Value to ADD">
+        <button onclick="putValue()">PUT Add</button>
+        <div id="putResult"></div>
+    </div>
+    <div class="section">
+        <h2>4. DELETE Pop from Stack</h2>
+        <button onclick="deleteValue()">DELETE Pop</button>
+        <div id="deleteResult"></div>
+    </div>
+    <script>
+        const baseUrl = 'http://jokimi:8087/api.KEM';
+
+        async function makeRequest(method, data = null) {
+            try {
+                console.log('Making', method, 'request to:', baseUrl);
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Accept': 'application/json'
+                    }
+                };
+                if (data && method !== 'GET') {
+                    options.body = new URLSearchParams(data).toString();
+                }
+                const response = await fetch(baseUrl, options);
+                const result = await response.json();
+                return {
+                    success: response.ok,
+                    data: result,
+                    status: response.status,
+                    message: response.ok ? 'Success' : 'Error'
+                };
+            }
+            catch (error) {
+                console.error('Request failed:', error);
+                return {
+                    success: false,
+                    error: error.message,
+                    details: 'Проверьте консоль для подробной информации'
+                };
+            }
+        }
+
+        async function getResult() {
+            const result = await makeRequest('GET');
+            const displayElement = document.getElementById('getResult');
+            if (result.success) {
+                displayElement.innerHTML = `<pre style="color: green;">${JSON.stringify(result.data, null, 2)}</pre>`;
+            }
+            else {
+                displayElement.innerHTML = `<pre style="color: red;">Ошибка: ${JSON.stringify(result, null, 2)}</pre>`;
+            }
+        }
+
+        async function postResult() {
+            const value = document.getElementById('postValue').value;
+            if (!value) {
+                alert('Введите значение!');
+                return;
+            }
+            const result = await makeRequest('POST', { RESULT: value });
+            const displayElement = document.getElementById('postResult');
+            if (result.success) {
+                displayElement.innerHTML = `<pre style="color: green;">${JSON.stringify(result.data, null, 2)}</pre>`;
+            }
+            else {
+                displayElement.innerHTML = `<pre style="color: red;">Ошибка: ${JSON.stringify(result.data, null, 2)}</pre>`;
+            }
+        }
+
+        async function putValue() {
+            const value = document.getElementById('putValue').value;
+            if (!value) {
+                alert('Введите значение!');
+                return;
+            }
+            const result = await makeRequest('PUT', { ADD: value });
+            const displayElement = document.getElementById('putResult');
+
+            if (result.success) {
+                displayElement.innerHTML = `<pre style="color: green;">${JSON.stringify(result.data, null, 2)}</pre>`;
+            } else {
+                displayElement.innerHTML = `<pre style="color: red;">Ошибка: ${JSON.stringify(result.data, null, 2)}</pre>`;
+            }
+        }
+
+        async function deleteValue() {
+            const result = await makeRequest('DELETE');
+            const displayElement = document.getElementById('deleteResult');
+            if (result.status === 400 && result.data && result.data.error === "Stack is empty!") {
+                displayElement.innerHTML = `<pre style="color: orange;">${JSON.stringify(result.data, null, 2)}</pre>`;
+            }
+            else if (result.success) {
+                displayElement.innerHTML = `<pre style="color: green;">${JSON.stringify(result.data, null, 2)}</pre>`;
+            }
+            else {
+                displayElement.innerHTML = `<pre style="color: red;">Ошибка: ${JSON.stringify(result.data, null, 2)}</pre>`;
+            }
+        }
+    </script>
+</body>
+</html>
