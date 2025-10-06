@@ -1,0 +1,207 @@
+﻿#include <iostream>
+#include <winsock2.h>
+#include <ctime>
+#include <limits>
+#include <string>
+#pragma comment(lib, "WS2_32.lib")
+#pragma warning(disable: 4996)
+using namespace std;
+
+struct GETSINCRO {
+    char cmd[4]; // Всегда "SINC"
+    int curvalue; // Текущее значение счетчика клиента
+    clock_t client_send_time; // Время отправки запроса
+};
+
+struct SETSINCRO {
+    char cmd[4]; // Всегда "SINC"
+    int correction; // Корректировка для счетчика клиента
+    clock_t server_time; // Время сервера на момент обработки
+};
+
+string GetErrorMsgText(int code) {
+    string msgText;
+    switch (code) {
+    case WSAEINTR: msgText = "Работа функции прервана"; break;
+    case WSAEACCES: msgText = "Разрешение отвергнуто"; break;
+    case WSAEFAULT: msgText = "Ошибочный адрес"; break;
+    case WSAEINVAL: msgText = "Ошибка в аргументе"; break;
+    case WSAEMFILE: msgText = "Слишком много файлов открыто"; break;
+    case WSAEWOULDBLOCK: msgText = "Ресурс временно недоступен"; break;
+    case WSAEINPROGRESS: msgText = "Операция в процессе развития"; break;
+    case WSAEALREADY: msgText = "Операция уже выполняется"; break;
+    case WSAENOTSOCK: msgText = "Сокет задан неправильно"; break;
+    case WSAEDESTADDRREQ: msgText = "Требуется адрес расположения"; break;
+    case WSAEMSGSIZE: msgText = "Сообщение слишком длинное"; break;
+    case WSAEPROTOTYPE: msgText = "Неправильный тип протокола для сокета"; break;
+    case WSAENOPROTOOPT: msgText = "Ошибка в опции протокола"; break;
+    case WSAEPROTONOSUPPORT: msgText = "Протокол не поддерживается"; break;
+    case WSAESOCKTNOSUPPORT: msgText = "Тип сокета не поддерживается"; break;
+    case WSAEOPNOTSUPP: msgText = "Операция не поддерживается"; break;
+    case WSAEPFNOSUPPORT: msgText = "Тип протоколов не поддерживается"; break;
+    case WSAEAFNOSUPPORT: msgText = "Тип адресов не поддерживается протоколом"; break;
+    case WSAEADDRINUSE: msgText = "Адрес уже используется"; break;
+    case WSAEADDRNOTAVAIL: msgText = "Запрошенный адрес не может быть использован"; break;
+    case WSAENETDOWN: msgText = "Сеть отключена"; break;
+    case WSAENETUNREACH: msgText = "Сеть не достижима"; break;
+    case WSAENETRESET: msgText = "Сеть разорвала соединение"; break;
+    case WSAECONNABORTED: msgText = "Программный отказ связи"; break;
+    case WSAECONNRESET: msgText = "Связь восстановлена"; break;
+    case WSAENOBUFS: msgText = "Не хватает памяти для буферов"; break;
+    case WSAEISCONN: msgText = "Сокет уже подключен"; break;
+    case WSAENOTCONN: msgText = "Сокет не подключен"; break;
+    case WSAESHUTDOWN: msgText = "Нельзя выполнить send: сокет завершил работу"; break;
+    case WSAETIMEDOUT: msgText = "Закончился отведенный интервал времени"; break;
+    case WSAECONNREFUSED: msgText = "Соединение отклонено"; break;
+    case WSAEHOSTDOWN: msgText = "Хост в неработоспособном состоянии"; break;
+    case WSAEHOSTUNREACH: msgText = "Нет маршрута для хоста"; break;
+    case WSAEPROCLIM: msgText = "Слишком много процессов"; break;
+    case WSASYSNOTREADY: msgText = "Сеть не доступна"; break;
+    case WSAVERNOTSUPPORTED: msgText = "Данная версия недоступна"; break;
+    case WSANOTINITIALISED: msgText = "Не выполнена инициализация WS2_32.DLL"; break;
+    case WSAEDISCON: msgText = "Выполняется отключение"; break;
+    case WSATYPE_NOT_FOUND: msgText = "Класс не найден"; break;
+    case WSAHOST_NOT_FOUND: msgText = "Хост не найден"; break;
+    case WSATRY_AGAIN: msgText = "Неавторизированный хост не найден"; break;
+    case WSANO_RECOVERY: msgText = "Неопределенная ошибка"; break;
+    case WSANO_DATA: msgText = "Нет записи запрошенного типа"; break;
+    case WSA_INVALID_HANDLE: msgText = "Указанный дескриптор события с ошибкой"; break;
+    case WSA_INVALID_PARAMETER: msgText = "Один или более параметров с ошибкой"; break;
+    case WSA_IO_INCOMPLETE: msgText = "Объект ввода-вывода не в сигнальном состоянии"; break;
+    case WSA_IO_PENDING: msgText = "Операция завершится позже"; break;
+    case WSA_NOT_ENOUGH_MEMORY: msgText = "Не достаточно памяти"; break;
+    case WSA_OPERATION_ABORTED: msgText = "Операция отвергнута"; break;
+    case WSAEINVALIDPROCTABLE: msgText = "Ошибочный сервис"; break;
+    case WSAEINVALIDPROVIDER: msgText = "Ошибка в версии сервиса"; break;
+    case WSAEPROVIDERFAILEDINIT: msgText = "Невозможно инициализировать сервис"; break;
+    case WSASYSCALLFAILURE: msgText = "Аварийное завершение системного вызова"; break;
+    default: msgText = "Неизвестная ошибка"; break;
+    }
+    return msgText + " (" + to_string(code) + ")";
+}
+
+string SetErrorMsgText(string msgText, int code) {
+    return msgText + GetErrorMsgText(code);
+}
+
+int main(int argc, char* argv[]) {
+    setlocale(LC_ALL, "ru_RU.UTF-8");
+
+    string defaultIP = "127.0.0.1";
+    string serverIP = (argc >= 2) ? argv[1] : defaultIP;
+    cout << "Server IP: " << serverIP << endl;
+
+    long Tc = (argc >= 3) ? atol(argv[2]) : 1000;
+    cout << "Tc: " << Tc << " ticks" << endl;
+
+    SOCKET clientSocket;
+    WSADATA wsaData;
+    SOCKADDR_IN serverAddr;
+
+    cout << "UDP Time Sync Client Running..." << endl;
+
+    try {
+        // Инициализация Winsock
+        if (WSAStartup(MAKEWORD(2, 0), &wsaData) != 0)
+            throw SetErrorMsgText("WSAStartup: ", WSAGetLastError());
+
+        // Создание UDP-сокета
+        if ((clientSocket = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET)
+            throw SetErrorMsgText("Socket: ", WSAGetLastError());
+
+        // Настройка адреса сервера
+        serverAddr.sin_family = AF_INET;
+        serverAddr.sin_port = htons(5000); // Порт сервера
+        serverAddr.sin_addr.s_addr = inet_addr(serverIP.c_str());
+
+        GETSINCRO timeRequest;
+        SETSINCRO timeResponse;
+        long Cc = 0;
+        int request_number = 0;
+
+        // Переменные для статистики коррекций
+        int min_correction = INT_MAX;
+        int max_correction = INT_MIN;
+        long long total_correction = 0;
+        int successful_requests = 0;
+
+        strcpy(timeRequest.cmd, "SINC");
+
+        while (request_number < 10) {
+            request_number++;
+            timeRequest.curvalue = Cc; // Устанавливаем curvalue = Cc
+            timeRequest.client_send_time = clock(); // Фиксируем время отправки
+            cout << "Request #" << request_number << ", curvalue: " << timeRequest.curvalue << endl;
+
+            if (sendto(clientSocket, (char*)&timeRequest, sizeof(timeRequest), 0, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
+                throw SetErrorMsgText("SendTo: ", WSAGetLastError());
+
+            int serverAddrSize = sizeof(serverAddr);
+            try {
+                if (recvfrom(clientSocket, (char*)&timeResponse, sizeof(timeResponse), 0, (sockaddr*)&serverAddr, &serverAddrSize) == SOCKET_ERROR)
+                    throw SetErrorMsgText("RecvFrom: ", WSAGetLastError());
+
+                // Вычисление RTT и половины RTT
+                clock_t recv_time = clock();
+                clock_t rtt = recv_time - timeRequest.client_send_time;
+                clock_t half_rtt = rtt / 2;
+
+                // Корректировка Cc с учетом коррекции сервера и половины RTT
+                int server_correction = timeResponse.correction;
+                int total_correction_applied = server_correction + half_rtt;
+                Cc += total_correction_applied;
+
+                // Обновление статистики коррекций (только коррекция от сервера)
+                if (server_correction < min_correction)
+                    min_correction = server_correction;
+                if (server_correction > max_correction)
+                    max_correction = server_correction;
+
+                total_correction += server_correction;
+                successful_requests++;
+
+                cout << "Received correction: " << server_correction
+                    << ", RTT: " << rtt << ", Half RTT: " << half_rtt
+                    << ", Total correction applied: " << total_correction_applied
+                    << ", Updated Cc: " << Cc << endl;
+            }
+            catch (string errorMsg) {
+                cout << errorMsg << endl;
+                Cc -= Tc; // Откатываем изменение, если запрос неудачный
+            }
+
+            Sleep(Tc);
+
+            // Увеличение Cc на Tc перед следующим запросом
+            Cc += Tc;
+        }
+
+        // Вывод финальной статистики
+        cout << "\n=== CORRECTION STATISTICS ===" << endl;
+        cout << "Total requests: " << request_number << endl;
+        cout << "Successful requests: " << successful_requests << endl;
+
+        if (successful_requests > 0) {
+            double average_correction = static_cast<double>(total_correction) / successful_requests;
+            cout << "Minimum correction: " << min_correction << " ticks" << endl;
+            cout << "Maximum correction: " << max_correction << " ticks" << endl;
+            cout << "Average correction: " << average_correction << " ticks" << endl;
+        }
+        else {
+            cout << "No successful requests for statistics" << endl;
+        }
+
+        cout << "Final Cc value: " << Cc << " ticks" << endl;
+
+        if (closesocket(clientSocket) == SOCKET_ERROR)
+            throw SetErrorMsgText("Close socket: ", WSAGetLastError());
+
+        if (WSACleanup() == SOCKET_ERROR)
+            throw SetErrorMsgText("Cleanup: ", WSAGetLastError());
+    }
+    catch (string errorMsg) {
+        cout << errorMsg << endl;
+    }
+
+    return 0;
+}
