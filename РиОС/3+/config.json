@@ -1,0 +1,21 @@
+{
+  "timeService": {
+    "172.21.213.151": {
+      "host": "172.21.213.151",
+      "rang": 1
+    },
+    "172.21.213.227": {
+      "host": "172.21.213.227",
+      "rang": 2
+    },
+    "broadcastHost": "172.21.213.255",
+    "port": 5555,
+    "timeServicesCount": 2,
+    "checkCoordinatorInterval": 5000,
+    "checkCoordinatorAttempts": 3
+  },
+  "dispatcher": {
+    "host": "172.21.213.189",
+    "port": 5556
+  }
+} 

@@ -1,0 +1,103 @@
+{"level":"info","message":"ReplicateService initialized with central server: http://localhost:3001","timestamp":"2025-10-13T10:07:39.294Z"}
+{"level":"info","message":"Loaded environment from: t1.env","timestamp":"2025-10-13T10:07:39.306Z"}
+{"level":"info","message":"Региональный сервис запущен на порту: 4001","timestamp":"2025-10-13T10:07:39.326Z"}
+{"level":"info","message":"Periodic tasks scheduled","timestamp":"2025-10-13T10:07:39.328Z"}
+{"level":"info","message":"Regional database connected successfully","timestamp":"2025-10-13T10:07:39.332Z"}
+{"level":"info","message":"BODI endpoint called","timestamp":"2025-10-13T10:07:41.455Z"}
+{"level":"info","message":"Sending 2 test records from regional service on port 4001","timestamp":"2025-10-13T10:07:41.458Z"}
+{"level":"info","message":"BODI endpoint called","timestamp":"2025-10-13T10:07:46.454Z"}
+{"level":"info","message":"Sending 2 test records from regional service on port 4001","timestamp":"2025-10-13T10:07:46.455Z"}
+{"level":"info","message":"BODI endpoint called","timestamp":"2025-10-13T10:07:51.462Z"}
+{"level":"info","message":"Sending 2 test records from regional service on port 4001","timestamp":"2025-10-13T10:07:51.464Z"}
+{"level":"info","message":"Fetching BODI data from central server: http://localhost:3001 for SUB: 101","timestamp":"2025-10-13T10:07:54.329Z"}
+{"level":"info","message":"Received 414 records from central server","timestamp":"2025-10-13T10:07:54.441Z"}
+{"level":"info","message":"Filtered to 18 new records","timestamp":"2025-10-13T10:07:54.545Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"001\",\"SUB\":\"101\",\"DATV_SET\":\"2025-10-13T10:07:54.546Z\",\"KZAP\":7}","timestamp":"2025-10-13T10:07:54.546Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:07:54.580Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"002\",\"SUB\":\"101\",\"DATV_SET\":\"2025-10-13T10:07:54.581Z\",\"KZAP\":7}","timestamp":"2025-10-13T10:07:54.581Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:07:54.597Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"001\",\"SUB\":\"102\",\"DATV_SET\":\"2025-10-13T10:07:54.601Z\",\"KZAP\":1}","timestamp":"2025-10-13T10:07:54.601Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:07:54.617Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"002\",\"SUB\":\"102\",\"DATV_SET\":\"2025-10-13T10:07:54.618Z\",\"KZAP\":1}","timestamp":"2025-10-13T10:07:54.618Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:07:54.627Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"001\",\"SUB\":\"103\",\"DATV_SET\":\"2025-10-13T10:07:54.627Z\",\"KZAP\":1}","timestamp":"2025-10-13T10:07:54.628Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:07:54.636Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"002\",\"SUB\":\"103\",\"DATV_SET\":\"2025-10-13T10:07:54.637Z\",\"KZAP\":1}","timestamp":"2025-10-13T10:07:54.637Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:07:54.647Z"}
+{"level":"info","message":"Setting 18 records into regional BODI","timestamp":"2025-10-13T10:07:54.648Z"}
+{"level":"info","message":"Successfully set 18 records into regional BODI","timestamp":"2025-10-13T10:07:54.804Z"}
+{"level":"info","message":"Successfully processed 18 new records","timestamp":"2025-10-13T10:07:54.805Z"}
+{"level":"info","message":"fetchCentralBODIasync completed successfully","timestamp":"2025-10-13T10:07:54.808Z"}
+{"level":"info","message":"BODI endpoint called","timestamp":"2025-10-13T10:07:56.456Z"}
+{"level":"info","message":"Sending 2 test records from regional service on port 4001","timestamp":"2025-10-13T10:07:56.457Z"}
+{"level":"info","message":"BODI endpoint called","timestamp":"2025-10-13T10:08:01.456Z"}
+{"level":"info","message":"Sending 2 test records from regional service on port 4001","timestamp":"2025-10-13T10:08:01.457Z"}
+{"level":"info","message":"BODI endpoint called","timestamp":"2025-10-13T10:08:06.465Z"}
+{"level":"info","message":"Sending 2 test records from regional service on port 4001","timestamp":"2025-10-13T10:08:06.466Z"}
+{"level":"info","message":"Fetching BODI data from central server: http://localhost:3001 for SUB: 101","timestamp":"2025-10-13T10:08:09.333Z"}
+{"level":"info","message":"Received 426 records from central server","timestamp":"2025-10-13T10:08:09.407Z"}
+{"level":"info","message":"Filtered to 12 new records","timestamp":"2025-10-13T10:08:09.512Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"001\",\"SUB\":\"101\",\"DATV_SET\":\"2025-10-13T10:08:09.513Z\",\"KZAP\":3}","timestamp":"2025-10-13T10:08:09.513Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:08:09.532Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"002\",\"SUB\":\"101\",\"DATV_SET\":\"2025-10-13T10:08:09.533Z\",\"KZAP\":3}","timestamp":"2025-10-13T10:08:09.533Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:08:09.543Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"001\",\"SUB\":\"103\",\"DATV_SET\":\"2025-10-13T10:08:09.544Z\",\"KZAP\":3}","timestamp":"2025-10-13T10:08:09.544Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:08:09.553Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"002\",\"SUB\":\"103\",\"DATV_SET\":\"2025-10-13T10:08:09.554Z\",\"KZAP\":3}","timestamp":"2025-10-13T10:08:09.554Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:08:09.564Z"}
+{"level":"info","message":"Setting 12 records into regional BODI","timestamp":"2025-10-13T10:08:09.565Z"}
+{"level":"info","message":"Successfully set 12 records into regional BODI","timestamp":"2025-10-13T10:08:09.671Z"}
+{"level":"info","message":"Successfully processed 12 new records","timestamp":"2025-10-13T10:08:09.672Z"}
+{"level":"info","message":"fetchCentralBODIasync completed successfully","timestamp":"2025-10-13T10:08:09.675Z"}
+{"level":"info","message":"BODI endpoint called","timestamp":"2025-10-13T10:08:11.458Z"}
+{"level":"info","message":"Sending 2 test records from regional service on port 4001","timestamp":"2025-10-13T10:08:11.459Z"}
+{"level":"info","message":"BODI endpoint called","timestamp":"2025-10-13T10:08:16.459Z"}
+{"level":"info","message":"Sending 2 test records from regional service on port 4001","timestamp":"2025-10-13T10:08:16.460Z"}
+{"level":"info","message":"BODI endpoint called","timestamp":"2025-10-13T10:08:21.468Z"}
+{"level":"info","message":"Sending 2 test records from regional service on port 4001","timestamp":"2025-10-13T10:08:21.469Z"}
+{"level":"info","message":"Fetching BODI data from central server: http://localhost:3001 for SUB: 101","timestamp":"2025-10-13T10:08:24.333Z"}
+{"level":"info","message":"Received 438 records from central server","timestamp":"2025-10-13T10:08:24.390Z"}
+{"level":"info","message":"Filtered to 12 new records","timestamp":"2025-10-13T10:08:24.496Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"001\",\"SUB\":\"101\",\"DATV_SET\":\"2025-10-13T10:08:24.497Z\",\"KZAP\":3}","timestamp":"2025-10-13T10:08:24.497Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:08:24.507Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"002\",\"SUB\":\"101\",\"DATV_SET\":\"2025-10-13T10:08:24.510Z\",\"KZAP\":3}","timestamp":"2025-10-13T10:08:24.510Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:08:24.521Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"001\",\"SUB\":\"103\",\"DATV_SET\":\"2025-10-13T10:08:24.522Z\",\"KZAP\":3}","timestamp":"2025-10-13T10:08:24.522Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:08:24.534Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"002\",\"SUB\":\"103\",\"DATV_SET\":\"2025-10-13T10:08:24.535Z\",\"KZAP\":3}","timestamp":"2025-10-13T10:08:24.535Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:08:24.549Z"}
+{"level":"info","message":"Setting 12 records into regional BODI","timestamp":"2025-10-13T10:08:24.550Z"}
+{"level":"info","message":"Successfully set 12 records into regional BODI","timestamp":"2025-10-13T10:08:24.642Z"}
+{"level":"info","message":"Successfully processed 12 new records","timestamp":"2025-10-13T10:08:24.643Z"}
+{"level":"info","message":"fetchCentralBODIasync completed successfully","timestamp":"2025-10-13T10:08:24.645Z"}
+{"level":"info","message":"BODI endpoint called","timestamp":"2025-10-13T10:08:26.461Z"}
+{"level":"info","message":"Sending 2 test records from regional service on port 4001","timestamp":"2025-10-13T10:08:26.462Z"}
+{"level":"info","message":"BODI endpoint called","timestamp":"2025-10-13T10:08:31.462Z"}
+{"level":"info","message":"Sending 2 test records from regional service on port 4001","timestamp":"2025-10-13T10:08:31.463Z"}
+{"level":"info","message":"BODI endpoint called","timestamp":"2025-10-13T10:08:36.464Z"}
+{"level":"info","message":"Sending 2 test records from regional service on port 4001","timestamp":"2025-10-13T10:08:36.465Z"}
+{"level":"info","message":"Fetching BODI data from central server: http://localhost:3001 for SUB: 101","timestamp":"2025-10-13T10:08:39.334Z"}
+{"level":"info","message":"Received 460 records from central server","timestamp":"2025-10-13T10:08:39.409Z"}
+{"level":"info","message":"Filtered to 22 new records","timestamp":"2025-10-13T10:08:39.568Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"001\",\"SUB\":\"101\",\"DATV_SET\":\"2025-10-13T10:08:39.569Z\",\"KZAP\":3}","timestamp":"2025-10-13T10:08:39.569Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:08:39.587Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"002\",\"SUB\":\"101\",\"DATV_SET\":\"2025-10-13T10:08:39.588Z\",\"KZAP\":3}","timestamp":"2025-10-13T10:08:39.588Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:08:39.606Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"001\",\"SUB\":\"103\",\"DATV_SET\":\"2025-10-13T10:08:39.608Z\",\"KZAP\":5}","timestamp":"2025-10-13T10:08:39.608Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:08:39.620Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"002\",\"SUB\":\"103\",\"DATV_SET\":\"2025-10-13T10:08:39.621Z\",\"KZAP\":5}","timestamp":"2025-10-13T10:08:39.621Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:08:39.631Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"001\",\"SUB\":\"102\",\"DATV_SET\":\"2025-10-13T10:08:39.632Z\",\"KZAP\":3}","timestamp":"2025-10-13T10:08:39.632Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:08:39.642Z"}
+{"level":"info","message":"Inserting into regional BODK: {\"IST\":\"002\",\"SUB\":\"102\",\"DATV_SET\":\"2025-10-13T10:08:39.644Z\",\"KZAP\":3}","timestamp":"2025-10-13T10:08:39.644Z"}
+{"level":"info","message":"Successfully inserted record into regional BODK","timestamp":"2025-10-13T10:08:39.653Z"}
+{"level":"info","message":"Setting 22 records into regional BODI","timestamp":"2025-10-13T10:08:39.654Z"}
+{"level":"info","message":"Successfully set 22 records into regional BODI","timestamp":"2025-10-13T10:08:39.840Z"}
+{"level":"info","message":"Successfully processed 22 new records","timestamp":"2025-10-13T10:08:39.841Z"}
+{"level":"info","message":"fetchCentralBODIasync completed successfully","timestamp":"2025-10-13T10:08:39.843Z"}
+{"level":"info","message":"BODI endpoint called","timestamp":"2025-10-13T10:08:41.464Z"}
+{"level":"info","message":"Sending 2 test records from regional service on port 4001","timestamp":"2025-10-13T10:08:41.466Z"}
+{"level":"info","message":"BODI endpoint called","timestamp":"2025-10-13T10:08:46.464Z"}
+{"level":"info","message":"Sending 2 test records from regional service on port 4001","timestamp":"2025-10-13T10:08:46.465Z"}
+{"level":"info","message":"BODI endpoint called","timestamp":"2025-10-13T10:08:51.472Z"}
+{"level":"info","message":"Sending 2 test records from regional service on port 4001","timestamp":"2025-10-13T10:08:51.473Z"}
