@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option csharp_namespace = "gRPCServer";
+
+package calculator;
+
+service Calculator {
+  rpc Sum (BinaryOperationRequest) returns (CalculationResult);
+  rpc Sub (BinaryOperationRequest) returns (CalculationResult);
+  rpc Mul (BinaryOperationRequest) returns (CalculationResult);
+  rpc Div (BinaryOperationRequest) returns (CalculationResult);
+  rpc Fact (UnaryOperationRequest) returns (CalculationResult);
+}
+
+message BinaryOperationRequest {
+  double x = 1;
+  double y = 2;
+}
+
+message UnaryOperationRequest {
+  int32 x = 1;
+}
+
+message CalculationResult {
+  oneof result {
+    double value = 1;
+    string error = 2;
+  }
+}

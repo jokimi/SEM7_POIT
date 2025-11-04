@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Новый профиль",
+    "Projects": [
+      {
+        "Path": "lab6-server\\lab6-server.csproj",
+        "Action": "StartWithoutDebugging"
+      },
+      {
+        "Path": "lab6-client\\lab6-client.csproj",
+        "Action": "StartWithoutDebugging"
+      }
+    ]
+  }
+]

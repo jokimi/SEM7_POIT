@@ -1,0 +1,7 @@
+выполнить в корневой папке:
+
+dotnet pack BSTU.Results.Authenticate/BSTU.Results.Authenticate.csproj --output ./nuget-packages
+dotnet pack BSTU.Results.Collection/BSTU.Results.Collection.csproj --output ./nuget-packages
+dotnet nuget add source ./nuget-packages --name local
+dotnet add reference ../BSTU.Results.Collection/BSTU.Results.Collection.csproj
+dotnet add reference ../BSTU.Results.Authenticate/BSTU.Results.Authenticate.csproj

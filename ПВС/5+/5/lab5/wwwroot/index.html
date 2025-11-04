@@ -1,0 +1,408 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignalR Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .calculator-panel {
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .connected {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .disconnected {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .connected .status-dot {
+            background: #28a745;
+        }
+
+        .disconnected .status-dot {
+            background: #dc3545;
+        }
+
+        .calculator-form {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        input {
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+            input:focus {
+                outline: none;
+                border-color: #667eea;
+            }
+
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+            button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            }
+
+            button:active {
+                transform: translateY(0);
+            }
+
+        .btn-sum {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-sub {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-mul {
+            background: #ffc107;
+            color: black;
+        }
+
+        .btn-div {
+            background: #fd7e14;
+            color: white;
+        }
+
+        .btn-fact {
+            background: #6f42c1;
+            color: white;
+        }
+
+        .btn-connect {
+            background: #007bff;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .btn-disconnect {
+            background: #dc3545;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .results {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .result-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border-left: 4px solid;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .error {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+
+        .result-method {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .clients-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+
+        .client-item {
+            padding: 8px;
+            margin-bottom: 5px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>🧮 SignalR Calculator</h1>
+
+    <div class="container">
+        <div class="panel calculator-panel">
+            <h2>Calculator</h2>
+
+            <div id="connectionStatus" class="connection-status disconnected">
+                <div class="status-dot"></div>
+                <span>Disconnected</span>
+            </div>
+
+            <div class="calculator-form">
+                <div class="input-group">
+                    <input type="number" id="inputX" placeholder="Enter X value" step="any">
+                    <input type="number" id="inputY" placeholder="Enter Y value" step="any">
+                </div>
+                <input type="number" id="inputN" placeholder="Enter N for factorial">
+            </div>
+
+            <div class="buttons-grid">
+                <button class="btn-sum" onclick="callMethod('Sum')">SUM</button>
+                <button class="btn-sub" onclick="callMethod('Sub')">SUB</button>
+                <button class="btn-mul" onclick="callMethod('Mul')">MUL</button>
+                <button class="btn-div" onclick="callMethod('Div')">DIV</button>
+                <button class="btn-fact" onclick="callMethod('Fact')">FACT</button>
+                <button class="btn-connect" onclick="startConnection()">Connect</button>
+                <button class="btn-disconnect" onclick="stopConnection()">Disconnect</button>
+            </div>
+
+            <h3>Results</h3>
+            <div id="results" class="results"></div>
+        </div>
+
+        <div class="panel">
+            <h2>Real-time Activity</h2>
+            <div id="activity" class="results"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.0/signalr.min.js"></script>
+    <script>
+        let connection = null;
+        let connectionId = null;
+
+        function updateConnectionStatus(connected) {
+            const statusElement = document.getElementById('connectionStatus');
+            if (connected) {
+                statusElement.className = 'connection-status connected';
+                statusElement.innerHTML = '<div class="status-dot"></div><span>Connected - ID: ' + connectionId + '</span>';
+            } else {
+                statusElement.className = 'connection-status disconnected';
+                statusElement.innerHTML = '<div class="status-dot"></div><span>Disconnected</span>';
+            }
+        }
+
+        function addResult(message, type = 'info') {
+            const resultsDiv = document.getElementById('results');
+            const resultItem = document.createElement('div');
+            resultItem.className = `result-item ${type}`;
+
+            const timestamp = new Date().toLocaleTimeString();
+            resultItem.innerHTML = `<div class="result-method">[${timestamp}] ${message}</div>`;
+
+            resultsDiv.appendChild(resultItem);
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        function addActivity(message, type = 'info') {
+            const activityDiv = document.getElementById('activity');
+            const activityItem = document.createElement('div');
+            activityItem.className = `result-item ${type}`;
+
+            const timestamp = new Date().toLocaleTimeString();
+            activityItem.innerHTML = `<div>[${timestamp}] ${message}</div>`;
+
+            activityDiv.appendChild(activityItem);
+            activityDiv.scrollTop = activityDiv.scrollHeight;
+        }
+
+        async function startConnection() {
+            try {
+                connection = new signalR.HubConnectionBuilder()
+                    .withUrl("/calculatorHub")
+                    .build();
+
+                // Обработчики событий от сервера
+                connection.on("ReceiveResult", (response) => {
+                    const message = response.success
+                        ? `${response.method}: ${response.result}`
+                        : `${response.method} Error: ${response.error}`;
+
+                    addActivity(message, response.success ? 'success' : 'error');
+                });
+
+                connection.on("ReceiveError", (method, error) => {
+                    addActivity(`${method} Error: ${error}`, 'error');
+                });
+
+                connection.on("ReceiveMessage", (message) => {
+                    addActivity(message, 'info');
+                });
+
+                await connection.start();
+                connectionId = connection.connectionId;
+                updateConnectionStatus(true);
+                addResult('Successfully connected to SignalR hub', 'success');
+
+            } catch (err) {
+                console.error('Connection failed:', err);
+                addResult('Connection failed: ' + err, 'error');
+            }
+        }
+
+        async function stopConnection() {
+            if (connection) {
+                await connection.stop();
+                connection = null;
+                connectionId = null;
+                updateConnectionStatus(false);
+                addResult('Disconnected from SignalR hub', 'info');
+            }
+        }
+
+        async function callMethod(methodName) {
+            if (!connection) {
+                addResult('Please connect first!', 'error');
+                return;
+            }
+
+            try {
+                let result;
+                const x = parseFloat(document.getElementById('inputX').value) || 0;
+                const y = parseFloat(document.getElementById('inputY').value) || 0;
+                const n = parseInt(document.getElementById('inputN').value) || 0;
+
+                switch (methodName) {
+                    case 'Sum':
+                        result = await connection.invoke('Sum', x, y);
+                        break;
+                    case 'Sub':
+                        result = await connection.invoke('Sub', x, y);
+                        break;
+                    case 'Mul':
+                        result = await connection.invoke('Mul', x, y);
+                        break;
+                    case 'Div':
+                        result = await connection.invoke('Div', x, y);
+                        break;
+                    case 'Fact':
+                        result = await connection.invoke('Fact', n);
+                        break;
+                    default:
+                        addResult(`Unknown method: ${methodName}`, 'error');
+                        return;
+                }
+
+                const message = result.success
+                    ? `${methodName} Result: ${result.result}`
+                    : `${methodName} Error: ${result.error}`;
+
+                addResult(message, result.success ? 'success' : 'error');
+
+            } catch (err) {
+                addResult(`Error calling ${methodName}: ${err}`, 'error');
+            }
+        }
+
+        // Автоподключение при загрузке страницы
+        window.addEventListener('load', startConnection);
+    </script>
+</body>
+</html>
