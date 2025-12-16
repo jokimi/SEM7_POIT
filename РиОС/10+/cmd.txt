@@ -1,0 +1,4 @@
+В винде от имени администратора: 
+bcdedit /set hypervisorlaunchtype off
+В винде от имени администратора после сдачи лабы: 
+bcdedit /set hypervisorlaunchtype auto
